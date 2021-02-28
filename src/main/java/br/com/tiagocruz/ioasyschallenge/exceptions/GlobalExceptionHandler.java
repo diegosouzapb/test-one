@@ -30,29 +30,35 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	protected Issue processExceptions(final Exception ex) {
+	protected Issue processExceptions(final Exception e) {
 
-		return new Issue(IssueEnum.UNEXPECTED_ERROR, Collections.singletonList(ex.getLocalizedMessage()));
+		LOGGER.error(e.getMessage(), e);
+
+		return new Issue(IssueEnum.UNEXPECTED_ERROR, Collections.singletonList(e.getLocalizedMessage()));
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	@ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED, value = HttpStatus.METHOD_NOT_ALLOWED)
-	protected Issue processHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException ex,
+	protected Issue processHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e,
 			final WebRequest request) {
 
-		return new Issue(IssueEnum.METHOD_NOT_ALLOWED, ex.getMethod(),
-				Joiner.on(", ").join(Objects.requireNonNull(ex.getSupportedHttpMethods())));
+		LOGGER.error(e.getMessage(), e);
+
+		return new Issue(IssueEnum.METHOD_NOT_ALLOWED, e.getMethod(),
+				Joiner.on(", ").join(Objects.requireNonNull(e.getSupportedHttpMethods())));
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	protected Issue handleMethodArgumentNotValid(final MethodArgumentNotValidException ex) {
+	protected Issue handleMethodArgumentNotValid(final MethodArgumentNotValidException e) {
+
+		LOGGER.error(e.getMessage(), e);
 
 		final List<String> errors = new ArrayList<>();
-		for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
+		for (final FieldError error : e.getBindingResult().getFieldErrors()) {
 			errors.add(error.getField() + ": " + error.getDefaultMessage());
 		}
-		for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+		for (final ObjectError error : e.getBindingResult().getGlobalErrors()) {
 			errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
 		}
 
@@ -61,16 +67,20 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	protected Issue hadleHttpMessageNotReadableException() {
+	protected Issue hadleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
+
+		LOGGER.error(e.getMessage(), e);
 
 		return new Issue(IssueEnum.JSON_DESERIALIZE_ERROR);
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	@ResponseStatus(value = HttpStatus.CONFLICT)
-	public Issue constraintViolationException() {
+	public Issue constraintViolationException(final DataIntegrityViolationException e) {
 
-		return new Issue(IssueEnum.CONFLICT);
+		LOGGER.error(e.getMessage(), e);
+
+		return new Issue(IssueEnum.DATA_INTEGRITY_VIOLATION, e.getMostSpecificCause().getMessage());
 	}
 
 	//Todo: Business Exceptions.

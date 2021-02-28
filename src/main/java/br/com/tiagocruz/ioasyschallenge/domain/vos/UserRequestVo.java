@@ -1,6 +1,7 @@
 package br.com.tiagocruz.ioasyschallenge.domain.vos;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,5 +40,24 @@ public class UserRequestVo implements Serializable {
 	public void setIsAdmin(final Boolean admin) {
 
 		isAdmin = admin;
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		final UserRequestVo that = (UserRequestVo) o;
+		return userName.equals(that.userName) && isAdmin.equals(that.isAdmin);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(userName, isAdmin);
 	}
 }

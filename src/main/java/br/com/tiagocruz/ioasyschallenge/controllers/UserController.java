@@ -40,8 +40,11 @@ public class UserController {
 	private UserService userService;
 
 	@ApiOperation(value = "User Creation", notes = "Create an specific User")
-	@ApiResponses(value = { @ApiResponse(code = 202, message = ApiConstants.HTTP_ACCEPT_MESSAGE),
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = ApiConstants.HTTP_OK),
+			@ApiResponse(code = 202, message = ApiConstants.HTTP_ACCEPT_MESSAGE),
 			@ApiResponse(code = 400, message = ApiConstants.HTTP_BAD_REQUEST_MESSAGE),
+			@ApiResponse(code = 409, message = ApiConstants.HTTP_CONFLICT),
 			@ApiResponse(code = 403, message = ApiConstants.HTTP_FORBIDDEN_MESSAGE),
 			@ApiResponse(code = 405, message = ApiConstants.HTTP_METHOD_NOT_ALLOWED_MESSAGE),
 			@ApiResponse(code = 500, message = ApiConstants.HTTP_INTERNAL_SERVER_ERROR_MESSAGE) })

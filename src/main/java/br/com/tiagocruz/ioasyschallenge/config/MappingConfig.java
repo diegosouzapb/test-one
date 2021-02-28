@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MappingConfiguration {
+public class MappingConfig {
 
 	@Bean
 	public ModelMapper modelMapper(final List<AbstractConverter> converters) {

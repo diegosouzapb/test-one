@@ -8,6 +8,8 @@ public class ApiConstants {
 	public static final String HTTP_METHOD_NOT_ALLOWED_MESSAGE = "Method Not Allowed";
 	public static final String HTTP_INTERNAL_SERVER_ERROR_MESSAGE = "Internal Server Error";
 	public static final String HTTP_NO_CONTENT = "No content";
+	public static final String HTTP_CONFLICT = "Conflict";
+	public static final String HTTP_OK = "Ok";
 
 	private ApiConstants() {
 		// only constant fields class. Hidden constructor.
