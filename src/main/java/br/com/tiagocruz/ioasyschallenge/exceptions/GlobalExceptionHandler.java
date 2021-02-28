@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	protected Issue processExceptions(final Exception ex, final WebRequest request) {
+	protected Issue processExceptions(final Exception ex) {
 
 		return new Issue(IssueEnum.UNEXPECTED_ERROR, Collections.singletonList(ex.getLocalizedMessage()));
 	}
@@ -45,7 +46,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	protected Issue handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final WebRequest request) {
+	protected Issue handleMethodArgumentNotValid(final MethodArgumentNotValidException ex) {
 
 		final List<String> errors = new ArrayList<>();
 		for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -60,9 +61,16 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	protected Issue hadleHttpMessageNotReadableException(final HttpMessageNotReadableException ex, final WebRequest request) {
+	protected Issue hadleHttpMessageNotReadableException() {
 
 		return new Issue(IssueEnum.JSON_DESERIALIZE_ERROR);
+	}
+
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ResponseStatus(value = HttpStatus.CONFLICT)
+	public Issue constraintViolationException() {
+
+		return new Issue(IssueEnum.CONFLICT);
 	}
 
 	//Todo: Business Exceptions.

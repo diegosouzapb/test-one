@@ -10,6 +10,6 @@ public class ApiConstants {
 	public static final String HTTP_NO_CONTENT = "No content";
 
 	private ApiConstants() {
-		// only constant fields class. Hidden construction
+		// only constant fields class. Hidden constructor.
 	}
 }

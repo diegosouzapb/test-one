@@ -1,12 +1,10 @@
-package br.com.tiagocruz.ioasyschallenge.vo;
+package br.com.tiagocruz.ioasyschallenge.domain.vos;
 
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -17,26 +15,29 @@ public class UserRequestVo implements Serializable {
 
 	@NotBlank
 	@ApiModelProperty(value = "The userName chosen by user", required = true)
-	private final String userName;
+	private String userName;
 
 	@NotNull
 	@ApiModelProperty("Indicate if user is an administrator")
-	private final Boolean isAdmin;
-
-	@JsonCreator
-	public UserRequestVo(@JsonProperty("userName") final String userName, @JsonProperty("isAdmin") final Boolean isAdmin) {
-
-		this.userName = userName;
-		this.isAdmin = isAdmin;
-	}
+	private Boolean isAdmin;
 
 	public String getUserName() {
 
 		return userName;
 	}
 
+	public void setUserName(final String userName) {
+
+		this.userName = userName;
+	}
+
 	public Boolean getIsAdmin() {
 
 		return isAdmin;
+	}
+
+	public void setIsAdmin(final Boolean admin) {
+
+		isAdmin = admin;
 	}
 }

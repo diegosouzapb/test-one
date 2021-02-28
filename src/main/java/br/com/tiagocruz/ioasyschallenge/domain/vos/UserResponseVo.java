@@ -1,4 +1,4 @@
-package br.com.tiagocruz.ioasyschallenge.vo;
+package br.com.tiagocruz.ioasyschallenge.domain.vos;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,24 +7,28 @@ import io.swagger.annotations.ApiModelProperty;
 public class UserResponseVo {
 
 	@ApiModelProperty("The userName chosen by user")
-	private final String userName;
+	private String userName;
 
 	@ApiModelProperty("Indicate if user is an administrator")
-	private final Boolean isAdmin;
-
-	public UserResponseVo(final String userName, final Boolean isAdmin) {
-
-		this.userName = userName;
-		this.isAdmin = isAdmin;
-	}
+	private Boolean isAdmin;
 
 	public String getUserName() {
 
 		return userName;
 	}
 
+	public void setUserName(final String userName) {
+
+		this.userName = userName;
+	}
+
 	public Boolean getIsAdmin() {
 
 		return isAdmin;
+	}
+
+	public void setIsAdmin(final Boolean isAdmin) {
+
+		this.isAdmin = isAdmin;
 	}
 }

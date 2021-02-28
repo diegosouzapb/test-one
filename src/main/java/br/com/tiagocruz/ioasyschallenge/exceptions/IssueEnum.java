@@ -8,8 +8,9 @@ import org.apache.logging.log4j.Logger;
 public enum IssueEnum {
 	UNEXPECTED_ERROR(6, "Unexpected error. Please contact system administrator."),
 	METHOD_NOT_ALLOWED(7, "%s method is not supported for this request. Supported methods are [%s]"),
-	BAD_REQUEST(8, "Malformed Request"), //
-	JSON_DESERIALIZE_ERROR(9, "Can not deserialize JSON.");
+	BAD_REQUEST(8, "Malformed Request"),
+	JSON_DESERIALIZE_ERROR(9, "Can not deserialize JSON."),
+	CONFLICT(10, "This information already exists.");
 
 	// not static because ENUMS are initialized before static fields by JVM
 	private final Logger logger = LogManager.getLogger(IssueEnum.class);

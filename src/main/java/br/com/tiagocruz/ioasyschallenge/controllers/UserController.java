@@ -1,8 +1,5 @@
 package br.com.tiagocruz.ioasyschallenge.controllers;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +8,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.tiagocruz.ioasyschallenge.domain.vos.UserRequestVo;
+import br.com.tiagocruz.ioasyschallenge.domain.vos.UserResponseVo;
 import br.com.tiagocruz.ioasyschallenge.helpers.constants.ApiConstants;
 import br.com.tiagocruz.ioasyschallenge.services.UserService;
-import br.com.tiagocruz.ioasyschallenge.vo.UserRequestVo;
-import br.com.tiagocruz.ioasyschallenge.vo.UserResponseVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -54,9 +50,9 @@ public class UserController {
 
 		LOGGER.info("PUT /users - UserName: {}", userRequestVo.getUserName());
 
-		return userService.createUser(userRequestVo)
-				.map(ResponseEntity::ok)
-				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		final UserResponseVo userResponseVo = userService.createUser(userRequestVo);
+
+		return ResponseEntity.ok(userResponseVo);
 	}
 
 	@ApiOperation(value = "User Update", notes = "Update an specific User")
@@ -70,7 +66,7 @@ public class UserController {
 
 		LOGGER.info("PUT /users - UserName: {}", "user-2");
 
-		return ResponseEntity.ok(new UserResponseVo("user-2", TRUE));
+		return ResponseEntity.ok(new UserResponseVo());
 	}
 
 	@ApiOperation(value = "User Deletion", notes = "Delete an specific User")
@@ -98,6 +94,6 @@ public class UserController {
 
 		LOGGER.info("GET /users - UserNames: {}", "2");
 
-		return ResponseEntity.ok(Arrays.asList(new UserResponseVo("user-10", FALSE), new UserResponseVo("user-20", TRUE)));
+		return ResponseEntity.ok(Arrays.asList(new UserResponseVo(), new UserResponseVo()));
 	}
 }
